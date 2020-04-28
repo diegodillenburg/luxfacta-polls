@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  luxfacta-polls:
+    command:
+      - /bin/sh
+      - -c
+      - |
+        rm -rf tmp/pids
+        bundle exec rails db:migrate
+        bundle exec rails s -p ${RAILS_PORT} -b ${RAILS_BIND}
+    env_file:
+      - '.env'
+    ports:
+      - "${RAILS_PORT}:${RAILS_PORT}"
