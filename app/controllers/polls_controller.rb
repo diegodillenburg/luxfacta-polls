@@ -37,7 +37,7 @@ class PollsController < ApplicationController
 
     render_bad_option(poll.id) and return unless (params[:option_id]).in?(poll.poll_option_ids)
 
-    if poll_option.increment!(:qty)
+    if poll_option&.vote
       render json: { status: 'vote registered' }, status: 204
     else
       render_bad_request
