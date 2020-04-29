@@ -8,7 +8,7 @@
 ## Ambiente de Desenvolvimento
 
 ### Instruções básicas para executar o ambiente de desenvolvimento:
-- Executar docker-compose, opcionalmente com a flag -d (daemon)
+- Executar docker-compose, opcionalmente com a flag -d (detach) para executar os containers em segundo plano
   - `docker-compose up --build`
   ![alt text][docker-dev-build-start]
   ![alt text][docker-dev-build-end]
@@ -38,7 +38,7 @@
   - LUXFACTA_POLLS_DATABASE_PRODUCTION_PORT
   - LUXFACTA_POLLS_DATABASE_PRODUCTION_USERNAME
   - LUXFACTA_POLLS_DATABASE_PRODUCTION_PASSWORD
-- Dentro do diretório raiz da aplicação, executar docker-compose, opcionalmente com a flag -d (daemon)
+- Dentro do diretório raiz da aplicação, executar docker-compose, opcionalmente com a flag -d (detach) para executar os containers em segundo plano
   - `docker-compose -f docker-compose.production.yml -f docker-compose.production.override.yml up --build`
   ![docker prod build][docker-prod-build-start]
   ![docker prod build][docker-prod-build-end]
