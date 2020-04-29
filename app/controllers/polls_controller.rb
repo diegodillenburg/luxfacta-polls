@@ -33,12 +33,14 @@ class PollsController < ApplicationController
     poll = Poll.find_by(id: params[:id])
     poll_option = PollOption.find_by(id: params[:option_id])
 
+    render_poll_not_found and return unless poll
+
     render_option_not_found and return unless poll_option
 
-    render_bad_option(poll.id) and return unless (params[:option_id]).in?(poll&.poll_option_ids)
+    render_bad_option(poll.id) and return unless valid_poll_option(poll)
 
-    if poll_option&.vote
-      render json: { status: 'vote registered' }, status: 204
+    if poll_option.vote
+      render json: { status: 'vote registered' }, status: 204 and return
     else
       render_bad_request
     end
@@ -46,8 +48,16 @@ class PollsController < ApplicationController
 
   private
 
+  def valid_poll_option(poll)
+    params[:option_id].in?(poll&.poll_option_ids.map(&:to_s))
+  end
+
   def poll_params
     params.permit([:poll_description, :options])
+  end
+
+  def render_poll_not_found
+    render json: { status: "poll #{params[:id]} doesn't exist" }, status: 404
   end
 
   def render_option_not_found

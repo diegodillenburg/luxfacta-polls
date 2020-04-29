@@ -50,7 +50,6 @@ RSpec.describe "Polls", type: :request do
       it { expect(response_body['votes'].first.has_key?('option_id')).to be true }
       it { expect(response_body['votes'].first.has_key?('qty')).to be true }
     end
-
   end
 
   describe 'POST /poll' do
@@ -63,5 +62,47 @@ RSpec.describe "Polls", type: :request do
   end
 
   describe 'POST /poll/:id/vote' do
+    let!(:poll_option) { build(:poll_option) }
+    let!(:poll) { create(:poll, poll_options: [poll_option]) }
+
+    context 'when poll exists' do
+      context 'when option exists' do
+        context 'when option is valid for given poll' do
+          before do
+            poll.reload
+            post "/poll/#{poll.id}/vote", params: { option_id: poll_option.id }
+          end
+
+          it { expect(response.status).to eq 204 }
+        end
+
+        context 'when option isn\'t valid for given poll' do
+          let!(:invalid_poll_option) { build(:poll_option) }
+          let!(:another_poll) { create(:poll, poll_options: [invalid_poll_option]) }
+
+          before { post "/poll/#{poll.id}/vote", params: { option_id: invalid_poll_option.id } }
+
+          it { expect(response.status).to eq 400 }
+        end
+      end
+
+      context 'when option doesn\'t exist' do
+        before do
+          allow(PollOption).to receive(:find_by).and_return nil
+          post "/polls/#{poll.id}/vote", params: { option_id: 1 }
+        end
+
+        it { expect(response.status).to eq 404 }
+      end
+    end
+
+    context 'when poll doesn\'t exist' do
+      before do
+        allow(Poll).to receive(:find_by).and_return nil
+        post '/polls/1/vote', params: { option_id: 1 }
+      end
+
+      it { expect(response.status).to eq 404 }
+    end
   end
 end
