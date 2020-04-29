@@ -13,7 +13,6 @@ RSpec.describe "Polls", type: :request do
       it { expect(response).to be_successful}
       it { expect(response.status).to eq 200 }
 
-      # it { expect(response_body).to have_key('poll_id' => poll.) }
       it { expect(response_body['poll_id']).to eq poll.id }
       it { expect(response_body['poll_description']).to eq poll.poll_description }
 

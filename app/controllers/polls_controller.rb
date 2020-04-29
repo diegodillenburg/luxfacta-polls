@@ -35,7 +35,7 @@ class PollsController < ApplicationController
 
     render_option_not_found and return unless poll_option
 
-    render_bad_option(poll.id) and return unless (params[:option_id]).in?(poll.poll_option_ids)
+    render_bad_option(poll.id) and return unless (params[:option_id]).in?(poll&.poll_option_ids)
 
     if poll_option&.vote
       render json: { status: 'vote registered' }, status: 204
