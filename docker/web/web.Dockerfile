@@ -1,6 +1,9 @@
 FROM nginx
 RUN apt-get update -qq && apt-get -y install apache2-utils
 
+ARG INSTALL_PATH
+ARG RAILS_PORT
+
 WORKDIR $INSTALL_PATH
 
 RUN mkdir log

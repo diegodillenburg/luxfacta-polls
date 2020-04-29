@@ -17,7 +17,7 @@ test:
 
 production:
   <<: *default
-  database: luxfacta_polls_production
+  database: luxfacta_polls
   host: <%= ENV['LUXFACTA_POLLS_DATABASE_PRODUCTION_HOST'] %>
   port: <%= ENV['LUXFACTA_POLLS_DATABASE_PRODUCTION_PORT'] %>
   username: <%= ENV['LUXFACTA_POLLS_DATABASE_PRODUCTION_USERNAME'] %>

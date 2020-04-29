@@ -14,12 +14,12 @@ RUN apt-get update \
     libpq-dev \
   && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p ~/apps/luxfacta-polls
-WORKDIR ~/apps/luxfacta-polls
+RUN mkdir -p $INSTALL_PATH
+WORKDIR $INSTALL_PATH
 COPY Gemfile Gemfile.lock ./
 RUN gem install bundler --pre
 RUN bundle config set without 'development test'
 RUN bundle install
 COPY . .
-VOLUME ["~/apps/luxfacta-polls/public"]
+VOLUME ["$INSTALL_PATH/public"]
 EXPOSE $RAILS_PORT
