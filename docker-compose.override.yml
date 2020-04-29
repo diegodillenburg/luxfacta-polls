@@ -4,9 +4,9 @@ services:
   luxfacta-polls:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./docker/app/dev.app.Dockerfile
       args:
-        INSTALL_PATH: "/${COMPOSE_PROJECT_NAME}"
+        INSTALL_PATH: "~/apps/${COMPOSE_PROJECT_NAME}"
         RAILS_PORT: ${RAILS_PORT}
     stdin_open: true
     tty: true
